@@ -23,7 +23,7 @@ const Header = () => {
             <Button className='w-12 h-10 hidden sm:inline' color='gray' pill >
               <FaRegMoon className='text-xl bg-white'/>
             </Button>
-            <Button gradientDuoTone='purpleToBlue'>
+            <Button gradientDuoTone='purpleToBlue' outline>
                 Sign In
             </Button>
             <Navbar.Toggle/>
