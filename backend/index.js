@@ -3,7 +3,8 @@ import connectToMongoDB from './DB/connectToMongoDB.js';
 import dotenv from 'dotenv'
 import cors from 'cors'
 import userRouter from './Routes/user.router.js';
-import { authController } from './controllers/auth.controller.js';
+import authRouter from './Routes/auth.router.js';
+import cookieParser from 'cookie-parser'
 const app = express()
 dotenv.config()
 app.use(cors({
@@ -11,11 +12,12 @@ app.use(cors({
     methods: "GET, POST, DELETE, PUT",
     credentials: true
 }))
+app.use(cookieParser())
 app.use(express.json())
 const PORT = process.env.PORT || 4000;
 
 app.use("/api/user",userRouter)
-app.use("/api/auth", authController)
+app.use("/api/auth", authRouter)
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
     const message = err.message || "Internal server Error";
