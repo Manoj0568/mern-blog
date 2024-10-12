@@ -8,6 +8,7 @@ import Header from "./components/Header"
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FooterComp from "./components/FooterComp"
+import Dashboard from "./pages/Dashboard"
 function App() {
  
 
@@ -20,6 +21,7 @@ function App() {
        <Route path="/signup" element={<Signup/>}/>
        <Route path='/signin' element={<Signin/>}/>
        <Route path='/projects' element={<Projects/>}/>
+       <Route path='/dashboard' element={<Dashboard/>}/>
      </Routes>
      <FooterComp/>
      <ToastContainer />
