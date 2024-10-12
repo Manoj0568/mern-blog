@@ -55,3 +55,42 @@ export const signinController = async (req,res,next)=>{
         return next(error)
     }
 }
+
+export const googleAuthController = async(req,res,next)=>{
+    const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
+    const {username,email,googlePhotoUrl} = req.body
+    try {
+        const existingUser = await User.findOne({email})
+        if(existingUser){
+            const token = generateToken(existingUser._id,JWT_SECRET_KEY, 5);
+            const {password,...rest} = existingUser._doc
+            res.status(200).cookie('authToken',token,{
+                expires: new Date(Date.now()+ 1000 * 60 * 5),
+                httpOnly: true,
+                sameSite: 'Lax',
+                secure: process.env.NODE_ENV == 'production'
+            }).json(rest)
+        }else{
+            const generatePassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
+            const hashedPassword = bcryptjs.hashSync(generatePassword,10)
+
+            const newUser = new User({
+                username: username.toLowerCase().split(' ').join("")+Math.random().toString(9).slice(-4),
+                email,
+                password:hashedPassword,
+                profilePicture: googlePhotoUrl
+            })
+            await newUser.save()
+            const token = generateToken(newUser._id,JWT_SECRET_KEY, 5);
+            const {password,...rest} = newUser._doc
+            res.status(200).cookie('authToken',token,{
+                expires: new Date(Date.now()+ 1000 * 60 * 5),
+                httpOnly: true,
+                sameSite: 'Lax',
+                secure: process.env.NODE_ENV == 'production'
+            }).json(rest)
+        }
+    } catch (error) {
+        next(error)
+    }
+}

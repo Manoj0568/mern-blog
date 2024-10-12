@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
 import { useDispatch,useSelector } from 'react-redux';
 import { signInStart,signInSuccess,signInFailure } from '../redux/user/userSlice';
+import Oauth from '../components/Oauth'
 
 const Signin = () => {
   const dispatch = useDispatch()
@@ -52,6 +53,7 @@ const Signin = () => {
         loading?(<><Spinner size='sm'/><span>Loading..</span></>):("SIGN-IN")
       }</Button>
         <Link to='/signin'><p>Create account?</p></Link>
+        <Oauth/>
       </div>
     </div>
   )

@@ -3,6 +3,7 @@ import {Button, Label, Spinner, TextInput} from 'flowbite-react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
+import Oauth from '../components/Oauth'
 const Signup = () => {
   const navigate = useNavigate()
   const [loading,setLoading] = useState(false)
@@ -50,6 +51,7 @@ const Signup = () => {
         loading?(<><Spinner size='sm'/><span>Loading..</span></>):("SIGN-IN")
       }</Button>
         <Link to='/signin'><p>Having existing account?</p></Link>
+        <Oauth/>
       </div>
     </div>
   )
