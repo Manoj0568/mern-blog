@@ -54,7 +54,7 @@ const FooterComp = () => {
          </div>
       </div>
       <Footer.Divider/>
-      <div classname='w-full sm:flex sm:items-center sm:justify-center'>
+      <div className='w-full sm:flex sm:items-center sm:justify-center'>
         <Footer.Copyright href='#' by="Mern blogs" year={new Date().getFullYear()}/>
         <div className='flex gap-6 sm:mt-2 mt-4 sm:justify-center'>
           <Footer.Icon href='#' icon={FaFacebook}/>

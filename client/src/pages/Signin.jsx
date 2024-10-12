@@ -3,9 +3,13 @@ import {Button, Label, Spinner, TextInput} from 'flowbite-react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
+import { useDispatch,useSelector } from 'react-redux';
+import { signInStart,signInSuccess,signInFailure } from '../redux/user/userSlice';
+
 const Signin = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [loading,setLoading] = useState(false)
+  const {loading,error} = useSelector(state=>state.user)
   const [formInput,setFormInput] = useState({
     email:"",
     password:""
@@ -22,12 +26,13 @@ const Signin = () => {
       return toast.error("Feilds can't be empty")
     }
     try {
-      setLoading(true)
-      await axios.post("/api/auth/signin",formInput, { withCredentials: true })
-      setLoading(p=>false)
+      dispatch(signInStart())
+      const data = await axios.post("/api/auth/signin",formInput, { withCredentials: true })
+      console.log(data.data)
+      dispatch(signInSuccess(data.data))
       navigate('/')
     } catch (error) {
-      setLoading(false)
+      dispatch(signInFailure(error.response.data.message))
       toast.error(error.response.data.message)
       console.log(error.response.data.message)
     }
