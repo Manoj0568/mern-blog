@@ -7,6 +7,7 @@ import Projects from "./pages/Projects"
 import Header from "./components/Header"
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import FooterComp from "./components/FooterComp"
 function App() {
  
 
@@ -20,6 +21,7 @@ function App() {
        <Route path='/signin' element={<Signin/>}/>
        <Route path='/projects' element={<Projects/>}/>
      </Routes>
+     <FooterComp/>
      <ToastContainer />
     </BrowserRouter>
   )
