@@ -2,14 +2,19 @@ import { Avatar, Button, Dropdown, Navbar, TextInput } from 'flowbite-react'
 import { Link, useLocation } from 'react-router-dom'
 import React from 'react'
 import { FaSearch } from "react-icons/fa";
-import { FaRegMoon } from "react-icons/fa";
-import {useSelector} from 'react-redux'
+import { FaRegMoon,FaRegSun } from "react-icons/fa";
+import {useDispatch, useSelector} from 'react-redux'
 import { FiLogOut } from "react-icons/fi";
 import { RxAvatar } from "react-icons/rx";
+import { toggleTheme } from '../redux/theme/themeSlice';
 const Header = () => {
     const path = useLocation().pathname
     const currentUser = useSelector(state=>state.user).currentUser
-    console.log(currentUser)
+    const {theme} = useSelector(state=>state.theme)
+    const dispatch = useDispatch()
+    const themeClickHandler =()=>{
+       dispatch(toggleTheme())
+    }
   return (
     <Navbar className='border-b-2 '>
         <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
@@ -23,8 +28,8 @@ const Header = () => {
             <FaSearch className='text-xl'/>
         </Button>
         <div className='flex gap-2 md:order-2 '>
-            <Button className='w-12 h-10 hidden sm:inline' color='gray' pill >
-              <FaRegMoon className='text-xl bg-white'/>
+            <Button className='w-12 h-10 hidden sm:inline' color='gray' pill onClick={themeClickHandler} >
+              {theme=='light'?<FaRegMoon className='text-xl'/>:<FaRegSun className='text-xl'/>}
             </Button>
             {currentUser? (
                 <Dropdown arrowIcon={false}
