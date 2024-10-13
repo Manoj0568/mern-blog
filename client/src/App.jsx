@@ -9,6 +9,7 @@ import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FooterComp from "./components/FooterComp"
 import Dashboard from "./pages/Dashboard"
+import PrivateRoute from "./components/PrivateRoute"
 function App() {
  
 
@@ -21,7 +22,9 @@ function App() {
        <Route path="/signup" element={<Signup/>}/>
        <Route path='/signin' element={<Signin/>}/>
        <Route path='/projects' element={<Projects/>}/>
+       <Route element={<PrivateRoute/>}>
        <Route path='/dashboard' element={<Dashboard/>}/>
+       </Route>
      </Routes>
      <FooterComp/>
      <ToastContainer />

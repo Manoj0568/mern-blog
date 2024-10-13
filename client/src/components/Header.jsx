@@ -52,9 +52,9 @@ const Header = () => {
                 <Dropdown.Divider/>
                 <Dropdown.Item icon={FiLogOut}>Sign-Out</Dropdown.Item>
                 </Dropdown>
-            ):(<Button gradientDuoTone='purpleToBlue' outline>
+            ):( <Link to="/signin"><Button gradientDuoTone='purpleToBlue' outline>
                 Sign In
-            </Button>)}
+            </Button></Link>)}
             
             <Navbar.Toggle/>
         </div>
