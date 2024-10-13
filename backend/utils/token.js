@@ -6,7 +6,10 @@ export const generateToken = (signId,secretKey,exp)=>{
 
 export const validateToken = (token,secretKey)=>{
     jwt.verify(token,secretKey,(err,user)=>{
-        if(err) return false
-        return true
+        if(err){
+            return false
+        }else{
+            return user
+        }
     })
 }
