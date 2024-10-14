@@ -48,7 +48,7 @@ const Signup = () => {
        
         </form>
         <Button outline className="w-full text-3xl py-1 mb-3" gradientDuoTone='purpleToPink' onClick={submitHandler} disabled={loading} >{
-        loading?(<><Spinner size='sm'/><span>Loading..</span></>):("SIGN-IN")
+        loading?(<><Spinner size='sm'/><span>Loading..</span></>):("SIGN-UP")
       }</Button>
         <Link to='/signin'><p>Having existing account?</p></Link>
         <Oauth/>

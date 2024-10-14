@@ -1,4 +1,4 @@
-import { Alert, Button, Modal, TextInput } from 'flowbite-react'
+import { Alert, Button, Modal, Spinner, TextInput } from 'flowbite-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {getStorage, getDownloadURL, ref,uploadBytesResumable} from 'firebase/storage'
@@ -8,7 +8,8 @@ import 'react-circular-progressbar/dist/styles.css'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import { deleteUserFailure, deleteUserStart, deleteUserSuccess, updateFailure, updateStart, updateSuccess } from '../redux/user/userSlice'
+import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signInFailure, signOutStart, signOutSuccess, updateFailure, updateStart, updateSuccess } from '../redux/user/userSlice'
+import { useNavigate } from 'react-router-dom'
 const DashProfile = () => {
     const {currentUser,error} = useSelector(state=>state.user)
     const [imageFile,setImageFile] = useState(null)
@@ -16,13 +17,15 @@ const DashProfile = () => {
     const [imageFileUploadProgress,setImageFileUploadProgress] = useState(null)
     const [imageFileUploadError,setImageFIleUploadError] = useState(null)
     const filePickerRef = useRef()
-
+    const {loading} = useSelector(state=>state.user)
     const [imageFileUploading,setImageFileUploading] = useState(false);
     const [updateUserSucess,setUpdateUserSucess]= useState(null);
     const[updateUserError,setUpdateUserError] = useState(null);
     const[formData,setFormData] = useState({})
     const[showModal,setShowModal] = useState(false)
     const dispatch = useDispatch()
+
+    const navigate = useNavigate()
     const handleImageChange =(e)=>{
         const file = e.target.files[0]
         if(file){
@@ -116,6 +119,28 @@ const DashProfile = () => {
         }
     }
 
+    const handleSignout = async()=>{
+        dispatch(signOutStart())
+        try {
+           const res = await axios.post(`/api/user/signout`,formData,{withCredentials:true})
+           const local = localStorage.getItem('persist:root')
+           if(local){
+            localStorage.removeItem('persist:root')
+           }
+           if(res.statusText =='OK'){
+            dispatch(signOutSuccess(res.data))
+            toast.success("Signed out successfull")
+            navigate('/signin')
+        }else{
+            dispatch(signInFailure(res.data.message))
+            toast.error(res.data.message)
+        }
+        } catch (error) {
+            dispatch(signInFailure(error.message))
+            toast.error(error.message)
+        }
+    }
+
     useEffect(()=>{
        if(imageFile){
         uploadImage()
@@ -158,11 +183,15 @@ const DashProfile = () => {
          <TextInput type='email' id='email' placeholder='email' defaultValue={currentUser.email} onChange={handleChange} />
          <TextInput type='password' id='password' placeholder='password' onChange={handleChange} />
          <Button type='submit' gradientDuoTone='purpleToBlue' outline>
-            Update
+            {loading?<><Spinner size='sm'/><span>Loading..</span></>: "Update"}
          </Button>
          <div className='text-red-500 flex justify-between mt-5'>
-             <span className='cursor-pointer' onClick={()=>setShowModal(true)}>Delete Account</span>
-             <span className='cursor-pointer'>SignOut</span>
+             <span className='cursor-pointer' onClick={()=>setShowModal(true)}>{
+                loading? <><Spinner size='sm'/><span>Loading..</span></> :"Delete Account"
+                }</span>
+             <span className='cursor-pointer' onClick={handleSignout}>
+                {loading?<><Spinner size='sm'/><span>Loading..</span></>:"Sign-out"}
+             </span>
          </div>
          
        </form>

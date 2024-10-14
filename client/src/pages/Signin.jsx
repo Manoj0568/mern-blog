@@ -52,7 +52,7 @@ const Signin = () => {
         <Button outline className="w-full text-3xl py-1 mb-3" gradientDuoTone='purpleToPink' onClick={submitHandler} disabled={loading} >{
         loading?(<><Spinner size='sm'/><span>Loading..</span></>):("SIGN-IN")
       }</Button>
-        <Link to='/signin'><p>Create account?</p></Link>
+        <Link to='/signup'><p>Create account?</p></Link>
         <Oauth/>
       </div>
     </div>
