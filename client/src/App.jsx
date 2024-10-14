@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import FooterComp from "./components/FooterComp"
 import Dashboard from "./pages/Dashboard"
 import PrivateRoute from "./components/PrivateRoute"
+import OnlyAdminProtected from "./components/OnlyAdminProtected"
+import CreatePost from "./pages/CreatePost"
 function App() {
  
 
@@ -24,6 +26,9 @@ function App() {
        <Route path='/projects' element={<Projects/>}/>
        <Route element={<PrivateRoute/>}>
        <Route path='/dashboard' element={<Dashboard/>}/>
+       </Route>
+       <Route element={<OnlyAdminProtected/>}>
+        <Route path='/createPost' element={<CreatePost/>}/>
        </Route>
      </Routes>
      <FooterComp/>

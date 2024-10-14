@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signInFailure, signOutStart, signOutSuccess, updateFailure, updateStart, updateSuccess } from '../redux/user/userSlice'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 const DashProfile = () => {
     const {currentUser,error} = useSelector(state=>state.user)
     const [imageFile,setImageFile] = useState(null)
@@ -195,6 +195,17 @@ const DashProfile = () => {
          </div>
          
        </form>
+       {
+        currentUser.isAdmin && (
+            <Link to={"/createPost"}>
+                <Button type='button'
+              gradientDuoTone='purpleToPink'
+              className='w-full'>
+                    Create a Post
+                </Button>
+            </Link>
+        )
+       }
        {
             updateUserError && (
                 <Alert color='failure' className='mt-5'>
