@@ -34,7 +34,7 @@ export const create = async (req, res, next) => {
         const posts = await Post.find({
             ...(req.query.userid && {userid: req.query.userid}),
             ...(req.query.category && {category: req.query.userid}),
-            ...(req.query.slug && {category:req.query.slug}),
+            ...(req.query.slug && {slug:req.query.slug}),
             ...(req.query.postid && {_id:req.query.postid}),
             ...(req.query.searchTerm && {
                   $or:[
@@ -59,4 +59,24 @@ export const create = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+  }
+
+  export const updatePost = async(req,res,next) =>{
+    const{title,content,category,image} = req.body
+     if(!req.user.isAdmin || req.user.id !== req.params.userid){
+      return next(errorHandler(403,"You are not allowed to update the post"))
+     }
+     try {
+      const updatedPost = await Post.findByIdAndUpdate(
+        req.params.postid,{
+          $set:{
+            title,content,category,image
+          }
+        },{new:true}
+      )
+
+      res.status(200).json(updatedPost)
+     } catch (error) {
+      next(error)
+     }
   }

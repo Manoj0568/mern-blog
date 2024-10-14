@@ -12,6 +12,8 @@ import Dashboard from "./pages/Dashboard"
 import PrivateRoute from "./components/PrivateRoute"
 import OnlyAdminProtected from "./components/OnlyAdminProtected"
 import CreatePost from "./pages/CreatePost"
+import UpdatePost from "./pages/UpdatePost"
+import PostPage from "./pages/PostPage"
 function App() {
  
 
@@ -29,6 +31,8 @@ function App() {
        </Route>
        <Route element={<OnlyAdminProtected/>}>
         <Route path='/createPost' element={<CreatePost/>}/>
+        <Route path='/updatepost/:postId' element={<UpdatePost/>}/>
+        <Route path="/post/:postslug" element={<PostPage/>}/>
        </Route>
      </Routes>
      <FooterComp/>
