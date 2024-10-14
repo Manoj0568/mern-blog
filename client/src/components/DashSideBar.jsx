@@ -1,6 +1,6 @@
 import { Sidebar, Spinner } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
-import { FaUser } from 'react-icons/fa'
+import { FaUser, FaUsers } from 'react-icons/fa'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { MdOutlineLogout } from "react-icons/md";
 import { SiGoogledocs } from "react-icons/si";
@@ -71,6 +71,11 @@ const DashSideBar = () => {
                             <Sidebar.Item icon={TfiWrite} as='div'>
                                 Create Posts
                             </Sidebar.Item>
+                        </Link>
+                        <Link to='/dashboard?tab=users'>
+                          <Sidebar.Item active={tab == 'users'} as='div' icon={FaUsers}>
+                            Users
+                          </Sidebar.Item>
                         </Link>
                         </>
                     )
