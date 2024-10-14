@@ -7,8 +7,9 @@ import { SiGoogledocs } from "react-icons/si";
 import { useDispatch, useSelector } from 'react-redux';
 import { signInFailure, signOutStart, signOutSuccess } from '../redux/user/userSlice';
 import { toast } from 'react-toastify';
+import { TfiWrite } from "react-icons/tfi";
 import axios from 'axios';
-import { current } from '@reduxjs/toolkit';
+
 const DashSideBar = () => {
     const location = useLocation()
     const [tab,setTab] = useState('')
@@ -60,16 +61,24 @@ const DashSideBar = () => {
                 </Sidebar.Item>
                 </Link>{
                     currentUser.isAdmin && (
+                        <>
                         <Link to='/dashboard?tab=posts'>
                             <Sidebar.Item active={tab=='posts'} icon={SiGoogledocs} as='div'>
                                 Posts
                             </Sidebar.Item>
                         </Link>
+                        <Link to='/createPost'>
+                            <Sidebar.Item icon={TfiWrite} as='div'>
+                                Create Posts
+                            </Sidebar.Item>
+                        </Link>
+                        </>
                     )
                 }
                 <Sidebar.Item as={'button'} icon={MdOutlineLogout} onClick={handleSignout}>
                     {loading?<><Spinner size='sm'/><span>Loading..</span></>:"Sign-Out"}
                 </Sidebar.Item>
+
             </Sidebar.ItemGroup>
         </Sidebar.Items>
 

@@ -5,6 +5,7 @@ import cors from 'cors'
 import userRouter from './Routes/user.router.js';
 import authRouter from './Routes/auth.router.js';
 import cookieParser from 'cookie-parser'
+import postRouter from './Routes/post.router.js';
 const app = express()
 dotenv.config()
 app.use(cors({
@@ -18,6 +19,8 @@ const PORT = process.env.PORT || 4000;
 
 app.use("/api/user",userRouter)
 app.use("/api/auth", authRouter)
+
+app.use('/api/post',postRouter)
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
     const message = err.message || "Internal server Error";
@@ -27,6 +30,7 @@ app.use((err,req,res,next)=>{
         message
     })
 })
+
 
 app.listen(PORT,(res,err)=>{
     connectToMongoDB()
