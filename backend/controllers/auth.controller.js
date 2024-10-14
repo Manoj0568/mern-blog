@@ -34,7 +34,7 @@ export const signinController = async (req,res,next)=>{
             let confirmPassword = await bcryptjs.compareSync(password,existingUser?.password)
             
             if(confirmPassword){
-                const accessToken = generateToken(existingUser._id,JWT_SECRET_KEY,5)
+                const accessToken = generateToken(existingUser._id,existingUser.isAdmin,JWT_SECRET_KEY,5)
                 // const refreshToken = generateToken(existingUser._id,JWT_SECRET_KEY,30)
 
                 res.cookie('authToken',accessToken,{
@@ -62,7 +62,7 @@ export const googleAuthController = async(req,res,next)=>{
     try {
         const existingUser = await User.findOne({email})
         if(existingUser){
-            const token = generateToken(existingUser._id,JWT_SECRET_KEY, 5);
+            const token = generateToken(existingUser._id,existingUser.isAdmin,JWT_SECRET_KEY, 5);
             const {password,...rest} = existingUser._doc
             res.status(200).cookie('authToken',token,{
                 expires: new Date(Date.now()+ 1000 * 60 * 5),
@@ -81,7 +81,7 @@ export const googleAuthController = async(req,res,next)=>{
                 profilePicture: googlePhotoUrl
             })
             await newUser.save()
-            const token = generateToken(newUser._id,JWT_SECRET_KEY, 5);
+            const token = generateToken(newUser._id,newUser.isAdmin,JWT_SECRET_KEY, 5);
             const {password,...rest} = newUser._doc
             res.status(200).cookie('authToken',token,{
                 expires: new Date(Date.now()+ 1000 * 60 * 5),
