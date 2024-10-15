@@ -1,6 +1,6 @@
 import { Avatar, Button, Dropdown, Navbar, Spinner, TextInput } from 'flowbite-react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaSearch } from "react-icons/fa";
 import { FaRegMoon,FaRegSun } from "react-icons/fa";
 import {useDispatch, useSelector} from 'react-redux'
@@ -10,16 +10,36 @@ import { toggleTheme } from '../redux/theme/themeSlice';
 import { signInFailure, signOutStart, signOutSuccess } from '../redux/user/userSlice';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+
 const Header = () => {
     const path = useLocation().pathname
+    const location = useLocation();
     const navigate = useNavigate()
     const currentUser = useSelector(state=>state.user).currentUser
     const {theme} = useSelector(state=>state.theme)
+    const [searchTerm, setSearchTerm] = useState('');
     const dispatch = useDispatch()
     const themeClickHandler =()=>{
        dispatch(toggleTheme())
     }
      const {loading} = useSelector(state=>state.user)
+
+     useEffect(() => {
+      const urlParams = new URLSearchParams(location.search);
+      const searchTermFromUrl = urlParams.get('searchTerm');
+      if (searchTermFromUrl) {
+        setSearchTerm(searchTermFromUrl);
+      }
+    }, [location.search]);
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      const urlParams = new URLSearchParams(location.search);
+      urlParams.set('searchTerm', searchTerm);
+      const searchQuery = urlParams.toString();
+      navigate(`/search?${searchQuery}`);
+    };
+
     const handleSignout = async()=>{
       dispatch(signOutStart())
       try {
@@ -41,16 +61,18 @@ const Header = () => {
           toast.error(error.message)
       }
   }
+
+
   return (
     <Navbar className='border-b-2 '>
         <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
           <span className='px-2 py-1 rounded bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white'>Mern</span>
           Blog
         </Link>
-        <form>
-            <TextInput type='text' placeholder='Search...' rightIcon={FaSearch} className='hidden  lg:inline' />
+        <form onSubmit={handleSubmit}>
+            <TextInput type='text' placeholder='Search...' rightIcon={FaSearch} className='hidden  lg:inline' value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} />
         </form>
-        <Button className='w-12 h-10 lg:hidden' color='gray'>
+        <Button className='w-12 h-10 lg:hidden' onClick={()=>navigate('/search')} color='gray'>
             <FaSearch className='text-xl'/>
         </Button>
         <div className='flex gap-2 md:order-2 '>
