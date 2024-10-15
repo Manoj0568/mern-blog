@@ -60,7 +60,7 @@ const CreatePost = () => {
         const res = await axios.post('/api/post/create',formData,{withCredentials:true})
         console.log(res)
         const data = res.data
-        if(res.statusText=='OK'){
+        if(res.statusText=='Created'){
             setPublishError(null)
             toast.success('Post created successfull')
             navigate(`/post/${data.slug}`)
