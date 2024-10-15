@@ -7,6 +7,7 @@ import { SiGoogledocs } from "react-icons/si";
 import { useDispatch, useSelector } from 'react-redux';
 import { signInFailure, signOutStart, signOutSuccess } from '../redux/user/userSlice';
 import { toast } from 'react-toastify';
+import { HiAnnotation } from 'react-icons/hi';
 import { TfiWrite } from "react-icons/tfi";
 import axios from 'axios';
 
@@ -77,6 +78,15 @@ const DashSideBar = () => {
                             Users
                           </Sidebar.Item>
                         </Link>
+                        <Link to='/dashboard?tab=comments'>
+                <Sidebar.Item
+                  active={tab === 'comments'}
+                  icon={HiAnnotation}
+                  as='div'
+                >
+                  Comments
+                </Sidebar.Item>
+                 </Link>
                         </>
                     )
                 }
