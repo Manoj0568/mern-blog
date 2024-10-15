@@ -4,8 +4,15 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 
 const PrivateRoute = () => {
+
     const { currentUser } = useSelector((state) => state.user);
-    return currentUser ? <Outlet /> : <Navigate to='/signin' />;
+   
+    if (!currentUser) {
+        localStorage.removeItem('persist:root');
+        return <Navigate to='/signin' />;
+    }
+
+    return <Outlet />;
   
 }
 
