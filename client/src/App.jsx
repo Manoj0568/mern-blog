@@ -53,13 +53,13 @@ function App() {
        <Route path='/signin' element={<Signin/>}/>
        <Route path='/projects' element={<Projects/>}/>
        <Route path='search' element={<Search/>}/>
+       <Route path="/post/:postslug" element={<PostPage/>}/>
        <Route element={<PrivateRoute/>}>
        <Route path='/dashboard' element={<Dashboard/>}/>
        </Route>
        <Route element={<OnlyAdminProtected/>}>
         <Route path='/createPost' element={<CreatePost/>}/>
         <Route path='/updatepost/:postId' element={<UpdatePost/>}/>
-        <Route path="/post/:postslug" element={<PostPage/>}/>
        </Route>
      </Routes>
      <FooterComp/>
