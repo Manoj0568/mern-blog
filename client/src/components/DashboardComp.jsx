@@ -24,7 +24,7 @@ export default function DashboardComp() {
       try {
         const res = await axios.get('/api/user/getusers?limit=5',{withCredentials:true});
         const data = res.data
-        if (res.statusText =='OK') {
+        if (res.status == 200) {
           setUsers(data.users);
           setTotalUsers(data.totalUsers);
           setLastMonthUsers(data.lastMonthUsers);
@@ -37,7 +37,7 @@ export default function DashboardComp() {
       try {
         const res = await axios.get('/api/post/getposts?limit=5',{withCredentials:true});
         const data = res.data;
-        if (res.statusText =='OK') {
+        if (res.status == 200) {
           setPosts(data.posts);
           setTotalPosts(data.totalPosts);
           setLastMonthPosts(data.lastMonthPosts);
@@ -50,7 +50,7 @@ export default function DashboardComp() {
       try {
         const res = await axios.get('/api/comment/getcomments?limit=5',{withCredentials:true});
         const data = res.data;
-        if (res.statusText =='OK') {
+        if (res.status == 200) {
           setComments(data.comments);
           setTotalComments(data.totalComments);
         }

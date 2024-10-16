@@ -48,7 +48,7 @@ const Header = () => {
          if(local){
           localStorage.removeItem('persist:root')
          }
-         if(res.statusText =='OK'){
+         if(res.status == 200){
           dispatch(signOutSuccess(res.data))
           toast.success("Signed out successfull")
           navigate('/signin')

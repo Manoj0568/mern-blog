@@ -18,7 +18,7 @@ const PostPage = () => {
             try {
                 setLoading(true)
                 const res = await axios.get(`/api/post/getposts?slug=${postslug}`)
-                if(res.statusText =='OK'){
+                if(res.status == 200){
                     setPost(res.data.posts[0])
                     setLoading(false)
                     setError(false)

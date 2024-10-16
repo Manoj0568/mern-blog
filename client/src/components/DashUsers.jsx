@@ -17,7 +17,7 @@ const DashUsers = () => {
         const fetchUsers = async ()=>{
             try {
                 const res = await axios.get('api/user/getusers',{withCredentials:true})
-                if(res.statusText='OK'){
+                if(res.status == 200){
                     console.log(res)
                     setUsers(res.data.users)
                     if(res.data.users.length<9){
@@ -39,7 +39,7 @@ const DashUsers = () => {
         const startIndex = users.length;
         try {
             const res = await axios.get(`api/user/getusers?startIndex=${startIndex}`,{withCredentials:true})
-                if(res.statusText='OK'){
+                if(res.status == 200){
                     setUsers(prev=>[...users,...res.data.users])
                     if(res.data.users.length<9){
                         setShowMore(false)
@@ -54,7 +54,7 @@ const DashUsers = () => {
     const handleDeleteUser = async ()=>{
         try {
             const res = await axios.delete(`/api/user/delete/${userIdToDelete}`)
-            if(res.statusText =='OK'){
+            if(res.status == 200){
                 setUsers(prev=>prev.filter((user)=>user._id !== userIdToDelete))
                 setShowModal(false)
                 toast.success('User deleted successfull')

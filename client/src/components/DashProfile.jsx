@@ -103,7 +103,7 @@ const DashProfile = () => {
             dispatch(updateStart());
             const res = await axios.put(`/api/user/update/${currentUser._id}`,formData,{withCredentials:true})
             console.log(res)
-            if(res.statusText =='OK'){
+            if(res.status == 200){
                 dispatch(updateSuccess(res.data))
                 setImageFileUploadProgress(null)
                 toast.success("Update Successfull")
@@ -127,7 +127,7 @@ const DashProfile = () => {
            if(local){
             localStorage.removeItem('persist:root')
            }
-           if(res.statusText =='OK'){
+           if(res.status == 200){
             dispatch(signOutSuccess(res.data))
             toast.success("Signed out successfull")
             navigate('/signin')

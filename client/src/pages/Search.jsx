@@ -85,10 +85,10 @@ const Search = () => {
         urlParams.set('startIndex', startIndex);
         const searchQuery = urlParams.toString();
         const res = await axios.get(`/api/post/getposts?${searchQuery}`);
-        if (res.statusText !== 'OK') {
+        if (res.status !== 200) {
           return;
         }
-        if (res.statusText == 'OK') {
+        if (res.status == 200) {
           const data = res.data
           setPosts([...posts, ...data.posts]);
           if (data.posts.length === 9) {

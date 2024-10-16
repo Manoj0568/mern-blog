@@ -28,7 +28,7 @@ export default function UpdatePost() {
     try {
       const fetchPost = async () => {
         const res = await axios.get(`/api/post/getposts?postid=${postId}`);
-        if (!res.statusText == 'OK') {
+        if (!res.status == 200) {
           console.log(res.message);
           setPublishError(res.message);
           toast.error(res.message)
@@ -86,7 +86,7 @@ export default function UpdatePost() {
     try {
       const res = await axios.put(`/api/post/updatepost/${formData._id}/${currentUser._id}`,formData, {withCredentials:true},
       );
-      if (!res.statusText == 'OK') {
+      if (!res.status == 200) {
         setPublishError(res.message);
         toast.error(res.message)
         return;

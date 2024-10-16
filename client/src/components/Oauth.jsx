@@ -25,7 +25,7 @@ const Oauth = () => {
             }
 
             const res = await axios.post('/api/auth/google',payload,{withCredentials:true})
-            if(res.statusText == 'OK'){
+            if(res.status == 200){
                 dispatch(signInSuccess(res.data))
                 navigate('/')
             }
