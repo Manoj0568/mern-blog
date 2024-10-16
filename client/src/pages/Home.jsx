@@ -8,7 +8,7 @@ const Home = () => {
   useEffect(()=>{
     const fetchPosts = async ()=>{
       const res = await axios.get('api/post/getPosts')
-      if(res.statusText=='OK'){
+      if(res.status == 200){
         setPosts(res.data.posts)
       }
     }

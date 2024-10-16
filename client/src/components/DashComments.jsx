@@ -15,7 +15,8 @@ export default function DashComments() {
       try {
         const res = await axios.get(`/api/comment/getcomments`,{withCredentials:true});
         const data = res.data
-        if (res.statusText=='OK') {
+        console.log(res)
+        if (res.status == 200) {
           setComments(data.comments);
           if (data.comments.length < 9) {
             setShowMore(false);

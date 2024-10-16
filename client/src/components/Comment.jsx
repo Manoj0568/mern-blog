@@ -15,7 +15,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
     const getUser = async () => {
       try {
         const res = await axios.get(`/api/user/${comment.userId}`);
-        if (res.statusText=='OK') {
+        if (res.status == 200) {
             console.log(res.data)
           setUser(res.data);
         }
@@ -37,7 +37,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
       const res = await axios.put(`/api/comment/editComment/${comment._id}`, {
         content: editedContent,
       },{withCredentials:true});
-      if (res.statusText=='OK') {
+      if (res.status == 200) {
         setIsEditing(false);
         onEdit(comment, editedContent);
       }

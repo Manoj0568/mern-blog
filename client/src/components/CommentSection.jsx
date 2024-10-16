@@ -23,7 +23,7 @@ const CommentSection =({ postId })=> {
             postId,
             userId: currentUser._id,}
       const res = await axios.post('/api/comment/create',payload, {withCredentials:true});
-      if (res.statusText=='OK') {
+      if (res.status == 200) {
         setComment('');
         setCommentError(null);
         setComments([res.data,...comments])
@@ -40,7 +40,7 @@ const CommentSection =({ postId })=> {
         }
 
         const res = await axios.put(`/api/comment/likeComment/${commentId}`)
-        if(res.statusText=='OK'){
+        if(res.status == 200){
             setComments(
                 comments.map((comment)=>{
                     return comment._id === commentId ? {...comment,likes:res.data.likes,numberOfLikes:res.data.likes.length} : comment
@@ -67,7 +67,7 @@ const CommentSection =({ postId })=> {
             }
 
             const res = await axios.delete(`/api/comment/deleteComment/${commentId}`,{withCredentials:true})
-            if(res.statusText=='OK'){
+            if(res.status == 200){
                 setComments(comments.filter((comment)=>comment._id !== commentId))
             }
          } catch (error) {
@@ -78,7 +78,7 @@ const CommentSection =({ postId })=> {
     const getComments = async ()=>{
         try {
             const res = await axios.get(`/api/comment/getPostComments/${postId}`)
-            if(res.statusText=='OK'){
+            if(res.status == 200){
                 console.log(res.data)
                 setComments(res.data)
             }

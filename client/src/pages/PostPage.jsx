@@ -39,7 +39,7 @@ const PostPage = () => {
        try {
         const fetchRecentPosts = async()=>{
             const res = await axios.get(`/api/post/getposts?limit=3`)
-            if(res.statusText=='OK'){
+            if(res.status == 200){
                 setRecentPosts(res.data.posts)
             }
         }

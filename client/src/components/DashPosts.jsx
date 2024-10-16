@@ -13,8 +13,8 @@ const DashPosts = () => {
         const fetchPost = async ()=>{
             try {
                 const res = await axios.get(`/api/post/getposts?userid=${currentUser._id}`)
-
-                if(res.statusText=='OK'){
+                console.log(res)
+                if(res.status == 200){
                     console.log(res)
                     console.log(res.data)
                     setUserPosts(res.data.posts)
@@ -41,7 +41,7 @@ const DashPosts = () => {
         try {
             const  res = await axios.get(`/api/post/getposts?userid=${currentUser._id}&startIndex=${startIndex}`)
 
-            if(res.statusText=='OK'){
+            if(res.status == 200){
                 setUserPosts((prev)=>[...prev,...res.data.posts])
                 if(res.data.posts.length<9){
                     setShowmore(false)
@@ -59,7 +59,7 @@ const DashPosts = () => {
        try {
         const res = await axios.delete(`/api/post/delete/${postId}`,{withCredentials:true})
         
-        if(res.statusText=='OK'){
+        if(res.status == 200){
           setUserPosts(userPosts.filter((post)=>post._id !== postId))
           toast.success("Post delted successfull")
         }

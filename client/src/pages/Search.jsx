@@ -38,7 +38,7 @@ const Search = () => {
             console.log(searchQuery)
             const res = await axios.get(`/api/post/getposts?${searchQuery}`,{withCredentials:true})
             console.log(res)
-            if(res.statusText=='OK'){
+            if(res.status == 200){
                 setPosts(res.data.posts)
                 setLoading(false)
                 if(res.data.posts.length === 9){
