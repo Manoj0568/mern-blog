@@ -3,6 +3,7 @@ import { Table } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const DashPosts = () => {
     const {currentUser} = useSelector(state=>state.user)
@@ -53,6 +54,19 @@ const DashPosts = () => {
         }
     }
 
+
+    const handleDelete = async(postId)=>{
+       try {
+        const res = await axios.delete(`/api/post/delete/${postId}`,{withCredentials:true})
+        
+        if(res.statusText=='OK'){
+          setUserPosts(userPosts.filter((post)=>post._id !== postId))
+          toast.success("Post delted successfull")
+        }
+       } catch (error) {
+        console.log(error.message)
+       }
+    }
     
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
@@ -94,7 +108,7 @@ const DashPosts = () => {
                   </Table.Cell>
                   <Table.Cell>{post.category}</Table.Cell>
                   <Table.Cell>
-                    <span className='font-medium text-red-500 hover:underline cursor-pointer'>
+                    <span className='font-medium text-red-500 hover:underline cursor-pointer' onClick={()=>handleDelete(post._id)}>
                       Delete
                     </span>
                   </Table.Cell>

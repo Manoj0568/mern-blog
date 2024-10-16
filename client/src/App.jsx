@@ -5,7 +5,7 @@ import Signup from "./pages/Signup"
 import Signin from "./pages/Signin"
 import Projects from "./pages/Projects"
 import Header from "./components/Header"
-import { ToastContainer} from 'react-toastify';
+import { toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FooterComp from "./components/FooterComp"
 import Dashboard from "./pages/Dashboard"
@@ -16,8 +16,31 @@ import UpdatePost from "./pages/UpdatePost"
 import PostPage from "./pages/PostPage"
 import ScrollToTop from "./components/ScrollToTop"
 import Search from "./pages/Search"
+import { useEffect } from "react"
+import axios from "axios"
 function App() {
- 
+   useEffect(()=>{
+    const verifyUser = async()=>{
+      console.log("verifying user")
+      try {
+        const res = await axios.get('/api/auth/get',{withCredentials:true})
+      } catch (error) {
+        if(error){
+          const local = localStorage.getItem('persist:root')
+           if(local){
+            localStorage.removeItem('persist:root')
+           }
+           window.location.href='/signin'
+           toast.error("session expired")
+        }
+        console.log(error)
+      }
+    }
+
+    const intervalId = setInterval(verifyUser, 60000);
+
+    return () => clearInterval(intervalId)
+   },[])
 
   return (
     <BrowserRouter>

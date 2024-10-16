@@ -5,6 +5,8 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 const PrivateRoute = () => {
 
+    console.log("from private route")
+
     const { currentUser } = useSelector((state) => state.user);
    
     if (!currentUser) {

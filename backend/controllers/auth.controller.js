@@ -34,11 +34,11 @@ export const signinController = async (req,res,next)=>{
             let confirmPassword = await bcryptjs.compareSync(password,existingUser?.password)
             
             if(confirmPassword){
-                const accessToken = generateToken(existingUser._id,existingUser.isAdmin,JWT_SECRET_KEY,5)
+                const accessToken = generateToken(existingUser._id,existingUser.isAdmin,JWT_SECRET_KEY,30)
                 // const refreshToken = generateToken(existingUser._id,JWT_SECRET_KEY,30)
 
                 res.cookie('authToken',accessToken,{
-                    expires: new Date(Date.now()+ 1000 * 60 * 5),
+                    expires: new Date(Date.now()+ 1000 * 60 * 30),
                     httpOnly: true,
                     sameSite: 'Lax',
                     secure: process.env.NODE_ENV == 'production'
@@ -62,10 +62,10 @@ export const googleAuthController = async(req,res,next)=>{
     try {
         const existingUser = await User.findOne({email})
         if(existingUser){
-            const token = generateToken(existingUser._id,existingUser.isAdmin,JWT_SECRET_KEY, 5);
+            const token = generateToken(existingUser._id,existingUser.isAdmin,JWT_SECRET_KEY, 30);
             const {password,...rest} = existingUser._doc
             res.status(200).cookie('authToken',token,{
-                expires: new Date(Date.now()+ 1000 * 60 * 5),
+                expires: new Date(Date.now()+ 1000 * 60 * 30),
                 httpOnly: true,
                 sameSite: 'Lax',
                 secure: process.env.NODE_ENV == 'production'
@@ -81,10 +81,10 @@ export const googleAuthController = async(req,res,next)=>{
                 profilePicture: googlePhotoUrl
             })
             await newUser.save()
-            const token = generateToken(newUser._id,newUser.isAdmin,JWT_SECRET_KEY, 5);
+            const token = generateToken(newUser._id,newUser.isAdmin,JWT_SECRET_KEY, 30);
             const {password,...rest} = newUser._doc
             res.status(200).cookie('authToken',token,{
-                expires: new Date(Date.now()+ 1000 * 60 * 5),
+                expires: new Date(Date.now()+ 1000 * 60 * 30),
                 httpOnly: true,
                 sameSite: 'Lax',
                 secure: process.env.NODE_ENV == 'production'
@@ -92,5 +92,14 @@ export const googleAuthController = async(req,res,next)=>{
         }
     } catch (error) {
         next(error)
+    }
+}
+
+export const verifyControll = (req,res,next)=>{
+    console.log(req.user)
+    if(req.user){
+        res.status(200).json("user verified")
+    }else{
+        return next(errorHandler(403,"User not verfied"))
     }
 }
